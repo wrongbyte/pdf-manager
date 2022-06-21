@@ -1,8 +1,10 @@
 import os
+from pathlib import Path
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
+# setattr(self, 'filename', Path(filePath).stem + '.pdf')
+
 # TODO: raise errors for encrypted PDFS
-# TODO: get name of file and use it to save
 
 outputPath = os.path.join(os.getcwd() + '\pdfs')
 
@@ -23,6 +25,8 @@ def splitFixed(pagesInterval, filename):
     
     listIntervals = listPages[0:numPages:pagesInterval]
 
+    outFilename = Path(filename).stem
+
     # Add each interval's pages
     for i in listIntervals:
         lis = [] # Contains the indexes of the first page of each interval
@@ -36,7 +40,7 @@ def splitFixed(pagesInterval, filename):
             if num > numPages:
                 for page in lis:
                     PDFWriter.addPage(inputPDF.getPage(page))
-                    outputFilename = '{}_interval.pdf'.format(count)
+                    outputFilename = '{}_{}.pdf'.format(outFilename, count)
                     with open(outputFilename, 'wb') as output:
                         PDFWriter.write(output)
                         
@@ -44,7 +48,7 @@ def splitFixed(pagesInterval, filename):
 
         for page in lis:
             PDFWriter.addPage(inputPDF.getPage(page))
-            outputFilename = '{}_interval.pdf'.format(count)
+            outputFilename = '{}_{}.pdf'.format(outFilename, count)
             with open(outputFilename, 'wb') as output:
                 PDFWriter.write(output)
                 
@@ -60,6 +64,7 @@ def splitCustom(startPage, endPage, filename):
     if startPage >= endPage or startPage == 0 or endPage > numPages:
         return 'Invalid interval'
 
+    outFilename = Path(filename).stem
     startPage = startPage - 1
     PDFWriter = PdfFileWriter()
 
@@ -67,7 +72,7 @@ def splitCustom(startPage, endPage, filename):
     interval = listPages[startPage:endPage]
     for page in interval:
         PDFWriter.addPage(inputPDF.getPage(page))
-        outputFilename = 'splitted.pdf'
+        outputFilename = '{}_splitted.pdf'.format(outFilename)
         with open(outputFilename, 'wb') as output:
             PDFWriter.write(output)
     return 

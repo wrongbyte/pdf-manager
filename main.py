@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QMessageBox, QSpinBox
 from PDFfunctions import splitFixed, splitCustom
+from pathlib import Path
 
 # TODO: create file directory for saving PDFs/ Choose directory to save in settings (new tab)
 # TODO: show selected PDF's name and/or local to save it
@@ -24,6 +25,7 @@ class fixedRange(QtWidgets.QWidget):
         super(fixedRange, self).__init__(parent)
         layout = QtWidgets.QVBoxLayout(self)
         self.PDFfile = None
+        self.filename = ''
 
         # Widgets definition
         numPages = QLabel(self)
@@ -33,6 +35,7 @@ class fixedRange(QtWidgets.QWidget):
         self.pagesInterval = QSpinBox()
         uploadButton = QtWidgets.QPushButton("Choose file")
         splitButton = QtWidgets.QPushButton("Split!")
+        self.filenameText = QLabel(self)
 
         # Buttons functions
         uploadButton.clicked.connect(self.getFile)
@@ -40,6 +43,7 @@ class fixedRange(QtWidgets.QWidget):
         splitButton.clicked.connect(self.splitFixed)
 
         # Add all widgets to layout
+        layout.addWidget(self.filenameText)
         layout.addWidget(uploadButton)
         layout.addWidget(explanationMsg)
         layout.addWidget(numPages)
@@ -63,6 +67,8 @@ class fixedRange(QtWidgets.QWidget):
     def getFile(self):
         filePath, filters = QFileDialog.getOpenFileName(self, filter="*.pdf")
         setattr(self, 'PDFfile', filePath)
+        setattr(self, 'filename', Path(filePath).stem + '.pdf')
+        self.filenameText.setText('Selected: ' + self.filename)
 
 
 class customRange(QtWidgets.QWidget):
@@ -70,6 +76,7 @@ class customRange(QtWidgets.QWidget):
         super(customRange, self).__init__(parent)
         layout = QtWidgets.QVBoxLayout(self)
         self.PDFfile = None
+        self.filename = ''
 
         # Widgets definition
         uploadButton = QtWidgets.QPushButton("Choose file")
@@ -79,6 +86,7 @@ class customRange(QtWidgets.QWidget):
         splitButton = QtWidgets.QPushButton("Split!")
         self.initPage = QSpinBox()
         self.endPage = QSpinBox()
+        self.filenameText = QLabel(self)
 
         # Add all widgets to horizontal layout
         hBox = QHBoxLayout()
@@ -93,6 +101,7 @@ class customRange(QtWidgets.QWidget):
         splitButton.clicked.connect(self.splitCustom)
 
         # Add all widgets to vertical layout
+        layout.addWidget(self.filenameText)
         layout.addWidget(uploadButton)
         layout.addWidget(explanationMsg)
         layout.addLayout(hBox)
@@ -115,6 +124,8 @@ class customRange(QtWidgets.QWidget):
     def getFile(self):
         filePath, filters = QFileDialog.getOpenFileName(self, filter="*.pdf")
         setattr(self, 'PDFfile', filePath)
+        setattr(self, 'filename', Path(filePath).stem + '.pdf')
+        self.filenameText.setText('Selected: ' + self.filename)
 
 
 class MainWindow(QtWidgets.QWidget):        
