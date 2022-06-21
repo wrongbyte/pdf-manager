@@ -5,6 +5,7 @@ from PDFfunctions import splitFixed, splitCustom
 
 # TODO: create file directory for saving PDFs/ Choose directory to save in settings (new tab)
 # TODO: show selected PDF's name and/or local to save it
+# TODO: progress bar for saving // handle it async (?)
 
 class App(QtWidgets.QMainWindow):
     def __init__(self):
@@ -99,15 +100,13 @@ class customRange(QtWidgets.QWidget):
         layout.addStretch()
         
     def splitCustom(self):
-        returnStatus = 'Choose a PDF file'
-
-        if self.PDFfile != None:
-            returnStatus = splitCustom(self.initPage.value(), self.endPage.value(), self.PDFfile)
-            dialog = QMessageBox(self)
-            # TODO: fix it 
-            if returnStatus == None:
-                returnStatus = 'Successfully splitted!'
-                
+        returnStatus = splitCustom(self.initPage.value(), self.endPage.value(), self.PDFfile)
+        
+        # TODO: fix it
+        if returnStatus == None:
+            returnStatus = 'Successfully splitted!'
+        
+        dialog = QMessageBox(self)
         dialog.setWindowTitle(" ")
         dialog.setText(returnStatus)
         dialog.exec()

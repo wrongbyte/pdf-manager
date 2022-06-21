@@ -40,7 +40,7 @@ def splitFixed(pagesInterval, filename):
                     outputFilename = '{}_interval.pdf'.format(count)
                     with open(outputFilename, 'wb') as output:
                         PDFWriter.write(output)
-                        print('Created: {}'.format(count))
+                        
                 return
 
         for page in lis:
@@ -48,14 +48,22 @@ def splitFixed(pagesInterval, filename):
             outputFilename = '{}_interval.pdf'.format(count)
             with open(outputFilename, 'wb') as output:
                 PDFWriter.write(output)
-                # print('Created: {}'.format(count))
+                
 
 # Create a new file from a custom range
 def splitCustom(startPage, endPage, filename):
     startPage = startPage - 1
+    # TODO: página inicial menor que o índice da primeira página
+    # TODO: página final maior que o índice da última página]
+    
+    if filename == None:
+        return 'No PDF selected'
 
-    if startPage >= endPage:
+    startPage = startPage - 1
+
+    if startPage >= endPage or startPage == 0 or endPage == 0:
         return 'Invalid interval'
+
 
     inputPDF = PdfFileReader(filename)
     numPages = inputPDF.getNumPages()
