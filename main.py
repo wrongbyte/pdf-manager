@@ -33,8 +33,8 @@ class fixedRange(QtWidgets.QWidget):
         # Buttons functions
         uploadButton.clicked.connect(self.getFile)
         # showDialog('test')
-        # splitButton.clicked.connect(lambda: splitFixed(pagesInterval.value(), self.PDFfile))
-        splitButton.clicked.connect(lambda: showDialog('test'))
+        splitButton.clicked.connect(lambda: splitFixed(pagesInterval.value(), self.PDFfile))
+        # splitButton.clicked.connect(lambda: showDialog('test'))
         
 
 
