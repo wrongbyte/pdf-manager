@@ -1,8 +1,10 @@
 import sys
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QMessageBox, QSpinBox, QVBoxLayout
+from PyQt5.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QMessageBox, QSpinBox
 from PDFfunctions import splitFixed, splitCustom
 
+# TODO: create file directory for saving PDFs/ Choose directory to save in settings (new tab)
+# TODO: show selected PDF's name and/or local to save it
 
 class App(QtWidgets.QMainWindow):
     def __init__(self):
@@ -36,7 +38,6 @@ class fixedRange(QtWidgets.QWidget):
 
         splitButton.clicked.connect(self.splitFixed)
 
-        
         # Add all widgets to layout
         layout.addWidget(uploadButton)
         layout.addWidget(explanationMsg)

@@ -1,13 +1,15 @@
 import os
-from PyPDF2 import PdfFileReader, PdfFileWriter, pdf
+from PyPDF2 import PdfFileReader, PdfFileWriter
 
-# TODO: create file directory for that/ Choose directory to save in settings
+# TODO: raise errors for encrypted PDFS
+# TODO: fix fixed range (it counts one page more than expected)
+# TODO: raise error for invalid intervals on custom range
+
 
 outputPath = os.path.join(os.getcwd() + '\pdfs')
 
 # Split PDF in a regular interval
 def splitFixed(pagesInterval, filename):
-    # TODO try and catch errors from encrypted PDFS
     if filename == None:
         return 'No PDF selected'
 
@@ -31,7 +33,7 @@ def splitFixed(pagesInterval, filename):
             num = i + j
             lis.append(num)
             if num >= numPages:
-                # Pages that are left from the interval (like the remainder of a division)
+                # Pages that are left from the interval (just like the remainder of a division)
                 for page in lis:
                     PDFWriter.addPage(inputPDF.getPage(page))
                     outputFilename = '{}_interval.pdf'.format(count)
@@ -45,9 +47,7 @@ def splitFixed(pagesInterval, filename):
             outputFilename = '{}_interval.pdf'.format(count)
             with open(outputFilename, 'wb') as output:
                 PDFWriter.write(output)
-                # Esse printa, o de cima nao
                 # print('Created: {}'.format(count))
-
 
 # Create a new file from a custom range
 def splitCustom(startPage, endPage, filename):
