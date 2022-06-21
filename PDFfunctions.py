@@ -2,7 +2,6 @@ import os
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
 # TODO: raise errors for encrypted PDFS
-# TODO: fix fixed range (it counts one page more than expected)
 # TODO: raise error for invalid intervals on custom range
 
 
@@ -24,6 +23,7 @@ def splitFixed(pagesInterval, filename):
     listPages = [page for page in range(numPages)]
     
     listIntervals = listPages[0:numPages:pagesInterval]
+
     # Add each interval's pages
     for i in listIntervals:
         lis = [] # Contains the indexes of the first page of each interval
@@ -31,9 +31,10 @@ def splitFixed(pagesInterval, filename):
         PDFWriter = PdfFileWriter()
         for j in range(pagesInterval):
             num = i + j
-            lis.append(num)
-            if num >= numPages:
-                # Pages that are left from the interval (just like the remainder of a division)
+            if num < numPages:
+                lis.append(num)
+                
+            if num > numPages:
                 for page in lis:
                     PDFWriter.addPage(inputPDF.getPage(page))
                     outputFilename = '{}_interval.pdf'.format(count)
