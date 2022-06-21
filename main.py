@@ -4,9 +4,6 @@ from PyQt5.QtWidgets import QFileDialog, QHBoxLayout, QLabel, QMessageBox, QSpin
 from PDFfunctions import splitFixed, splitCustom
 from pathlib import Path
 
-# TODO: create file directory for saving PDFs/ Choose directory to save in settings (new tab)
-# TODO: show selected PDF's name and/or local to save it
-# TODO: progress bar for saving // handle it async (?)
 
 class App(QtWidgets.QMainWindow):
     def __init__(self):

@@ -1,12 +1,9 @@
-import os
 from pathlib import Path
 from PyPDF2 import PdfFileReader, PdfFileWriter
 
-# setattr(self, 'filename', Path(filePath).stem + '.pdf')
-
 # TODO: raise errors for encrypted PDFS
+# TODO: save PDF in the original directory
 
-outputPath = os.path.join(os.getcwd() + '\pdfs')
 
 # Split PDF in a regular interval
 def splitFixed(pagesInterval, filename):
@@ -43,7 +40,6 @@ def splitFixed(pagesInterval, filename):
                     outputFilename = '{}_{}.pdf'.format(outFilename, count)
                     with open(outputFilename, 'wb') as output:
                         PDFWriter.write(output)
-                        
                 return
 
         for page in lis:
